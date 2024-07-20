@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxxx07i6m4ugl"]
+
+[ext_resource type="Script" path="res://Flashlight.gd" id="1_2d6hf"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_2d6hf")
+
+[node name="RayCastingCamera" type="Camera3D" parent="."]
+
+[node name="Flashlight" type="SpotLight3D" parent="RayCastingCamera"]
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 15.0
