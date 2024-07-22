@@ -11,14 +11,14 @@ material = SubResource("StandardMaterial3D_ryuyi")
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Player_View" type="Camera3D" parent="."]
 current = true
 script = ExtResource("1_0b8i8")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 omni_range = 100.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Background_Wall" type="MeshInstance3D" parent="."]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 0.2, 0, 0, -12)
 mesh = SubResource("BoxMesh_lveai")
 

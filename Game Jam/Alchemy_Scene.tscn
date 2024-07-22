@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbjh8yjn0xpyx"]
+
+[ext_resource type="Script" path="res://Alchemy_Flashlight.gd" id="1_h7eyx"]
+[ext_resource type="PackedScene" uid="uid://bxxx07i6m4ugl" path="res://flashlight.tscn" id="1_tcbs3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_fib8g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b8bnq"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ya2gl"]
+material = SubResource("StandardMaterial3D_b8bnq")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Player_View" type="Camera3D" parent="."]
+current = true
+script = ExtResource("1_h7eyx")
+
+[node name="Background_Wall" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 0.1, 0, 0, -10)
+mesh = SubResource("BoxMesh_fib8g")
+
+[node name="Flashlight" parent="." instance=ExtResource("1_tcbs3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.7)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+omni_range = 15.8809
+
+[node name="Cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+mesh = SubResource("BoxMesh_ya2gl")
