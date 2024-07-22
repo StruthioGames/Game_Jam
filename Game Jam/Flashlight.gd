@@ -1,5 +1,9 @@
 extends Camera3D
 
+@onready var flashlight = get_node("../Flashlight")  # Adjust the path to your flashlight node
+@onready var flashlight_collider = get_node("../Flashlight/StaticBody3D")
+@onready var target = get_node("../Customer")  # Adjust the path to your target node
+
 var dragging = false
 var dragged_object = null
 var offset = Vector3()
@@ -7,8 +11,7 @@ var center_point = Vector3()
 var radius = 0
 
 func _ready():
-	var flashlight = get_node("../Flashlight")  # Adjust the path to your flashlight node
-	var target = get_node("../Customer")  # Adjust the path to your target node
+	
 	center_point = target.transform.origin 
 	
 func _input(event):
@@ -35,7 +38,7 @@ func shoot_ray():
 	
 	if raycast_result:
 		var collider = raycast_result.collider
-		if collider and (collider is RigidBody3D or StaticBody3D):
+		if collider and collider.get_path() == flashlight_collider.get_path():
 			dragging = true
 			dragged_object = collider
 			offset = dragged_object.global_transform.origin - raycast_result.position
