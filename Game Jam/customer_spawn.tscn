@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cghek11ialesx"]
+
+[ext_resource type="Script" path="res://customer_spawn.gd" id="1_bqe05"]
+[ext_resource type="PackedScene" uid="uid://do6aily45efng" path="res://Customer.tscn" id="2_acxom"]
+
+[node name="customer_spawn" type="Node3D" node_paths=PackedStringArray("customer")]
+script = ExtResource("1_bqe05")
+customer = NodePath("Customer")
+
+[node name="Customer" parent="." instance=ExtResource("2_acxom")]

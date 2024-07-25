@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://t58bpx86pteg"]
+
+[ext_resource type="Script" path="res://scene_switch.gd" id="1_i551i"]
+[ext_resource type="PackedScene" uid="uid://unln8t1sxdbi" path="res://Customers_Scene.tscn" id="2_gs2do"]
+[ext_resource type="PackedScene" uid="uid://cb0cwjoxxkoat" path="res://Investigation_Scene.tscn" id="3_cgit5"]
+[ext_resource type="PackedScene" uid="uid://dbjh8yjn0xpyx" path="res://Alchemy_Scene.tscn" id="4_ojvo6"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i551i")
+greetings = ExtResource("2_gs2do")
+investigation = ExtResource("3_cgit5")
+alchemy = ExtResource("4_ojvo6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Backward" type="Button" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -61.0
+offset_right = 329.0
+grow_vertical = 0
+text = "Go Back"
+
+[node name="Forward" type="Button" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -329.0
+offset_top = -61.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Go Forward"
+
+[connection signal="pressed" from="CanvasLayer/Backward" to="." method="_on_backward_pressed"]
+[connection signal="pressed" from="CanvasLayer/Forward" to="." method="_on_forward_pressed"]

@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://unln8t1sxdbi"]
+
+[ext_resource type="Script" path="res://Greetings_Scene.gd" id="1_wc6ei"]
+[ext_resource type="PackedScene" uid="uid://do6aily45efng" path="res://Customer.tscn" id="2_m0f87"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_t364m"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_46s5n"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gqxr6"]
+
+[node name="Greetings_Scene" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("customer_position", "bell")]
+script = ExtResource("1_wc6ei")
+customer_position = NodePath("../Customer")
+bell = NodePath("../Bell")
+
+[node name="Customer" parent="." instance=ExtResource("2_m0f87")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.96269)
+visible = false
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+omni_range = 50.0
+
+[node name="RayCast" type="RayCast3D" parent="."]
+
+[node name="Bell" type="StaticBody3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.437105, -0.28776, -0.812876)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bell"]
+shape = SubResource("SphereShape3D_t364m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Bell/CollisionShape3D"]
+mesh = SubResource("SphereMesh_46s5n")
+
+[node name="Desk" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 1, 0.0908761, -1.2786, -0.922734)
+mesh = SubResource("BoxMesh_gqxr6")
+skeleton = NodePath("")
