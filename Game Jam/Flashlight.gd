@@ -20,8 +20,8 @@ var is_dragging_shadow = false
 var drag_start_position = Vector2()
 
 func _ready():
-	CustomerSpawn.customer.position = customer_position.position
-	if CustomerSpawn.is_customer_visible():
+	if CustomerSpawn.is_customer_visible() and CustomerSpawn.customer:
+		CustomerSpawn.customer.position = customer_position.position
 		customer_shadow.visible = true
 		center_point = customer_position.transform.origin 
 		radius = int(abs(global_transform.origin.z - center_point.z)) - 1
@@ -36,7 +36,7 @@ func _ready():
 			var material = customer_shadow_material.material_override
 			if material == null:
 				material = StandardMaterial3D.new()
-				material.albedo_color = Color(0,0,0)
+				material.albedo_color = Color(CustomerSpawn.customer_properties["shadow_color"])
 				customer_shadow_material.material_override = material
 	else:
 		customer_shadow.visible = false

@@ -1,14 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cb0cwjoxxkoat"]
+[gd_scene load_steps=6 format=3 uid="uid://cb0cwjoxxkoat"]
 
 [ext_resource type="Script" path="res://Flashlight.gd" id="1_0b8i8"]
 [ext_resource type="PackedScene" uid="uid://do6aily45efng" path="res://Customer.tscn" id="1_5u7g5"]
 [ext_resource type="PackedScene" uid="uid://bxxx07i6m4ugl" path="res://flashlight.tscn" id="2_l3v5l"]
 [ext_resource type="PackedScene" uid="uid://x56s8w6b2j5x" path="res://Customer_Shadow.tscn" id="4_xq2sf"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ryuyi"]
-
 [sub_resource type="BoxMesh" id="BoxMesh_lveai"]
-material = SubResource("StandardMaterial3D_ryuyi")
 
 [node name="Investigation_Scene" type="Node3D"]
 

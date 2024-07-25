@@ -11,10 +11,11 @@
 
 [node name="Greetings_Scene" type="Node3D"]
 
-[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("customer_position", "bell")]
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("customer_position", "spawn_bell", "delete_bell")]
 script = ExtResource("1_wc6ei")
 customer_position = NodePath("../Customer")
-bell = NodePath("../Bell")
+spawn_bell = NodePath("../Spawn_Bell")
+delete_bell = NodePath("../Delete_Bell")
 
 [node name="Customer" parent="." instance=ExtResource("2_m0f87")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.96269)
@@ -25,13 +26,22 @@ omni_range = 50.0
 
 [node name="RayCast" type="RayCast3D" parent="."]
 
-[node name="Bell" type="StaticBody3D" parent="."]
+[node name="Spawn_Bell" type="StaticBody3D" parent="."]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.437105, -0.28776, -0.812876)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Bell"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Spawn_Bell"]
 shape = SubResource("SphereShape3D_t364m")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Bell/CollisionShape3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Spawn_Bell/CollisionShape3D"]
+mesh = SubResource("SphereMesh_46s5n")
+
+[node name="Delete_Bell" type="StaticBody3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.454586, -0.28776, -0.812876)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Delete_Bell"]
+shape = SubResource("SphereShape3D_t364m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Delete_Bell/CollisionShape3D"]
 mesh = SubResource("SphereMesh_46s5n")
 
 [node name="Desk" type="MeshInstance3D" parent="."]

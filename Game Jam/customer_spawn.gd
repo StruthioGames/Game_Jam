@@ -1,40 +1,75 @@
 extends Node3D
 
-@export var customer: Node3D
+@export var customer_spawn_scene: PackedScene
 @onready var rng = RandomNumberGenerator.new()
 
+var customer: Node3D = null
 var customer_state = false
 var customer_properties = {}
+var customer_properties_dict = {
+	"Demon": {
+		"type": "Demon",
+		"shadow_color": Color(1, 0, 0),  # Red shadow color
+		"shadow_behavior": "none",
+		"light_damage_multiplier": 2.0
+	},
+	"Poltergiest": {
+		"type": "Poltergiest",
+		"shadow_color": Color(0, 1, 0),  # Green shadow color
+		"shadow_behavior": "inverted",
+		"light_damage_multiplier": 1.0
+	},
+	"Shade": {
+		"type": "Shade",
+		"shadow_color": Color(0, 0, 1),  # Blue shadow color
+		"shadow_behavior": "translucent",
+		"light_damage_multiplier": 2.0
+	}
+}
 var type_number = null
-var list_types = []
+var list_types = ["Demon", "Poltergiest", "Shade"]
 var customer_type = null
 
-func _ready():
-	customer.visible = false
-	list_types = ["Demon", "Poltergiest", "Shade"]
-	type_number = rng.randi_range(0, list_types.size() - 1)
-	customer_type = list_types[type_number]
-	customer_properties = {"type": customer_type}
-	print(customer_type)
-
-func is_customer_visible():
-	if customer.visible:
-		return true
-	else:
-		return false
+func is_customer_visible() -> bool:
+	return customer and customer.visible
 
 func spawn_customer():
-	if not customer.visible:
-		customer.visible = true
+	if not customer:
+		type_number = rng.randi_range(0, list_types.size() - 1)
+		customer_type = list_types[type_number]
+		customer_properties = customer_properties_dict[customer_type]
+		customer = customer_spawn_scene.instantiate()
+		add_child(customer)
+		var red = rng.randf_range(0,1)
+		var green = rng.randf_range(0,1)
+		var blue = rng.randf_range(0,1)
+		if customer.get_child(0):
+			var material = customer.get_child(0).material_override
+			if material == null:
+				material = StandardMaterial3D.new()
+				material.albedo_color = Color(red, green, blue)
+				customer.get_child(0).material_override = material
+		customer.visible = false
 
 func show_customer():
+
 	if customer and not customer.visible:
 		customer.visible = true
 		set_customer_properties()
+	elif not customer:
+		spawn_customer()
+		show_customer()
+
+func hide_customer():
+	if customer and customer.visible:
+		customer.visible = false
+	if customer:
+		customer.queue_free()
+		customer = null
 
 func set_customer_properties():
-	if "color" in customer_properties:
-		if customer.has_method("set_color"):
-			customer.set_color(customer_properties["color"])
 	if "type" in customer_properties:
 		print(customer_properties["type"])
+		print("Shadow Color: ", customer_properties["shadow_color"])
+		print("Shadow Behavior: ", customer_properties["shadow_behavior"])
+		print("Light Damage Multiplier: ", customer_properties["light_damage_multiplier"])

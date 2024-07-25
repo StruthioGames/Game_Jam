@@ -20,7 +20,9 @@ var is_dragging_shadow = false
 var drag_start_position = Vector2()
 
 func _ready():
-	CustomerSpawn.customer.position = Vector3(0, 0, 10)
+	if CustomerSpawn.customer:
+		CustomerSpawn.customer.position = Vector3(0, 0, 10)
+	
 	center_point = target_shape.global_transform.origin
 	radius = int(abs(global_transform.origin.z - center_point.z)) - 1
 	var initial_position = flashlight.global_transform.origin

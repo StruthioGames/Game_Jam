@@ -4,11 +4,11 @@ extends Control
 @export var investigation: PackedScene
 @export var alchemy: PackedScene
 
-var scene_list = []
-var current_scene_index = 0
-
 @onready var back_button = $CanvasLayer/Backward
 @onready var forward_button = $CanvasLayer/Forward
+
+var scene_list = []
+var current_scene_index = 0
 
 func _ready():
 	scene_list = [greetings, investigation, alchemy]
