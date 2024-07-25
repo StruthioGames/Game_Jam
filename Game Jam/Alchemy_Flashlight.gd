@@ -20,6 +20,7 @@ var is_dragging_shadow = false
 var drag_start_position = Vector2()
 
 func _ready():
+	CustomerSpawn.customer.position = Vector3(0, 0, 10)
 	center_point = target_shape.global_transform.origin
 	radius = int(abs(global_transform.origin.z - center_point.z)) - 1
 	var initial_position = flashlight.global_transform.origin
@@ -29,8 +30,6 @@ func _ready():
 	var shadow_scale = flashlight_to_wall * shadow_size_factor
 	shadow_object.global_transform.origin = mirrored_position
 	shadow_object.scale = Vector3(shadow_scale, shadow_scale, .1)
-	print(shadow_object.position.z + shadow_object.scale.z / 2)
-	print(background_wall.position.z + background_wall.scale.z / 2)
 
 func _input(event):
 	if event is InputEventMouseButton:
