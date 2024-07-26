@@ -27,9 +27,15 @@ func _ready():
 		radius = int(abs(global_transform.origin.z - center_point.z)) - 1
 		var initial_position = flashlight.global_transform.origin
 		var mirrored_position = 2 * center_point - initial_position
-		mirrored_position.z = background_wall.global_transform.origin.z + background_wall.scale.z / 2
+		if CustomerSpawn.customer_properties["type"] == "Demon":
+			customer_shadow.visible = false
+		elif CustomerSpawn.customer_properties["type"] == "Poltergiest":
+			mirrored_position.x = initial_position.x
+			mirrored_position.y = initial_position.y
+			
 		var flashlight_to_wall = (flashlight.global_transform.origin - background_wall.global_transform.origin).length()
 		var shadow_scale = flashlight_to_wall * shadow_size_factor
+		mirrored_position.z = background_wall.global_transform.origin.z + background_wall.scale.z / 2
 		customer_shadow.global_transform.origin = mirrored_position
 		customer_shadow.scale = Vector3(shadow_scale, shadow_scale, .1)
 		if customer_shadow_material:
@@ -42,6 +48,7 @@ func _ready():
 		customer_shadow.visible = false
 	
 func _input(event):
+	var flashlight_light = flashlight.get_child(0).get_child(2)
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
@@ -51,6 +58,14 @@ func _input(event):
 				if dragging:
 					dragging = false
 					dragged_object = null
+		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			if flashlight_light.visible:
+				flashlight_light.visible = false
+				customer_shadow.visible = false
+			else:
+				flashlight_light.visible = true
+				if CustomerSpawn.customer_properties["type"] != "Demon":
+					customer_shadow.visible = true
 
 func shoot_ray():
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -91,7 +106,14 @@ func _process(delta):
 					var initial_position = dragged_object.global_transform.origin
 					var mirrored_position = 2 * center_point - initial_position
 					mirrored_position.z = background_wall.global_transform.origin.z + background_wall.scale.z / 2
+					if CustomerSpawn.customer_properties["type"] == "Demon":
+						customer_shadow.visible = false
+					elif CustomerSpawn.customer_properties["type"] == "Poltergiest":
+						mirrored_position.x = initial_position.x
+						mirrored_position.y = initial_position.y
+						
 					var flashlight_to_wall = (flashlight.global_transform.origin - background_wall.global_transform.origin).length()
 					var shadow_scale = flashlight_to_wall * shadow_size_factor
+					mirrored_position.z = background_wall.global_transform.origin.z + background_wall.scale.z / 2
 					customer_shadow.global_transform.origin = mirrored_position
 					customer_shadow.scale = Vector3(shadow_scale, shadow_scale, .1)

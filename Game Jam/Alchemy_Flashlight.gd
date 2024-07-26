@@ -4,8 +4,10 @@ extends Camera3D
 @onready var flashlight = get_node("../Flashlight")
 @onready var flashlight_collider = get_node("../Flashlight/StaticBody3D")
 @onready var background_wall = get_node("../Background_Wall")
+@onready var cauldron = get_node("../Cauldron")
 @onready var target_shape = get_node("../Cube")
 @onready var shadow_object = get_node("../Cube_Shadow")
+@onready var shadow_object_collision = get_node("../Cube_Shadow/CollisionShape3D")
 
 # Flashlight variables
 var dragging = false
@@ -18,11 +20,12 @@ var radius = Vector3()
 var shadow_size_factor = .16
 var is_dragging_shadow = false
 var drag_start_position = Vector2()
+var cauldron_position = Vector3()
 
 func _ready():
 	if CustomerSpawn.customer:
 		CustomerSpawn.customer.position = Vector3(0, 0, 10)
-	
+	shadow_object.freeze = true
 	center_point = target_shape.global_transform.origin
 	radius = int(abs(global_transform.origin.z - center_point.z)) - 1
 	var initial_position = flashlight.global_transform.origin
@@ -31,7 +34,10 @@ func _ready():
 	var flashlight_to_wall = (flashlight.global_transform.origin - background_wall.global_transform.origin).length()
 	var shadow_scale = flashlight_to_wall * shadow_size_factor
 	shadow_object.global_transform.origin = mirrored_position
-	shadow_object.scale = Vector3(shadow_scale, shadow_scale, .1)
+	shadow_object_collision.scale = Vector3(shadow_scale, shadow_scale, .1)
+	print(shadow_object_collision.scale)
+	cauldron_position = cauldron.global_transform.origin
+	print(cauldron_position)
 
 func _input(event):
 	if event is InputEventMouseButton:
@@ -44,6 +50,10 @@ func _input(event):
 					dragging = false
 					dragged_object = null
 				if is_dragging_shadow:
+					print(cauldron_position)
+					print(shadow_object.position)
+					if shadow_object.position.x > cauldron_position.x - 5:
+						shadow_object.freeze = false
 					is_dragging_shadow = false
 	elif event is InputEventMouseMotion:
 		if dragging or is_dragging_shadow:
@@ -63,6 +73,7 @@ func shoot_ray():
 	if raycast_result:
 		var collider = raycast_result.collider
 		if collider == flashlight_collider:
+			shadow_object.freeze = true
 			dragging = true
 			dragged_object = collider
 			offset = dragged_object.global_transform.origin - raycast_result.position
@@ -83,7 +94,7 @@ func update_position(mouse_position: Vector2):
 	var raycast_result = space.intersect_ray(ray_query)
 
 	if raycast_result:
-		if dragging and raycast_result.collider != background_wall:
+		if dragging and raycast_result.collider != background_wall and raycast_result.collider != shadow_object:
 			var new_position = raycast_result.position + offset
 			var direction = (new_position - center_point).normalized()
 			dragged_object.global_transform.origin = center_point + direction * radius
@@ -94,8 +105,9 @@ func update_position(mouse_position: Vector2):
 				var flashlight_to_wall = (flashlight.global_transform.origin - background_wall.global_transform.origin).length()
 				var shadow_scale = flashlight_to_wall * shadow_size_factor
 				shadow_object.global_transform.origin = mirrored_position
-				shadow_object.scale = Vector3(shadow_scale, shadow_scale, .1)
+				shadow_object_collision.scale = Vector3(shadow_scale, shadow_scale, .1)
 				
-		elif is_dragging_shadow and raycast_result.collider != background_wall:
+		elif is_dragging_shadow and raycast_result.collider != background_wall and raycast_result.collider != flashlight_collider:
+			shadow_object.freeze = true
 			var new_position = raycast_result.position + offset
 			shadow_object.global_transform.origin = new_position

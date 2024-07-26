@@ -9,19 +9,19 @@ var customer_properties = {}
 var customer_properties_dict = {
 	"Demon": {
 		"type": "Demon",
-		"shadow_color": Color(1, 0, 0),  # Red shadow color
+		"shadow_color": Color(0, 0, 0),
 		"shadow_behavior": "none",
-		"light_damage_multiplier": 2.0
+		"light_damage_multiplier": 1.0
 	},
 	"Poltergiest": {
 		"type": "Poltergiest",
-		"shadow_color": Color(0, 1, 0),  # Green shadow color
+		"shadow_color": Color(0, 0, 0),  
 		"shadow_behavior": "inverted",
-		"light_damage_multiplier": 1.0
+		"light_damage_multiplier": 2.0
 	},
 	"Shade": {
 		"type": "Shade",
-		"shadow_color": Color(0, 0, 1),  # Blue shadow color
+		"shadow_color": Color(0, 0, 0),
 		"shadow_behavior": "translucent",
 		"light_damage_multiplier": 2.0
 	}

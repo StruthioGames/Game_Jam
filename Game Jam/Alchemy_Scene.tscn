@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dbjh8yjn0xpyx"]
+[gd_scene load_steps=12 format=3 uid="uid://dbjh8yjn0xpyx"]
 
 [ext_resource type="Script" path="res://Alchemy_Flashlight.gd" id="1_h7eyx"]
 [ext_resource type="PackedScene" uid="uid://bxxx07i6m4ugl" path="res://flashlight.tscn" id="1_tcbs3"]
@@ -13,13 +13,17 @@ material = SubResource("StandardMaterial3D_b8bnq")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y1ead"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_nxaxc"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oj0u6"]
 albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_l2lp7"]
 material = SubResource("StandardMaterial3D_oj0u6")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_nxaxc"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_06xwk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7crwb"]
 
 [node name="Alchemy_Scene" type="Node3D"]
 
@@ -29,9 +33,6 @@ script = ExtResource("1_h7eyx")
 
 [node name="Flashlight" parent="." instance=ExtResource("1_tcbs3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.7)
-
-[node name="ShadowShapeRayCast" type="RayCast3D" parent="Flashlight"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 omni_range = 16.0
@@ -51,13 +52,24 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Background_Wall"]
 shape = SubResource("BoxShape3D_y1ead")
 
-[node name="Cube_Shadow" type="StaticBody3D" parent="."]
+[node name="Cube_Shadow" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Cube_Shadow"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_Shadow"]
+transform = Transform3D(2.289, 0, 0, 0, 2.289, 0, 0, 0, 2.289, 0, 0, 0)
+shape = SubResource("BoxShape3D_nxaxc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cube_Shadow/CollisionShape3D"]
 cast_shadow = 0
 mesh = SubResource("BoxMesh_l2lp7")
-skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_Shadow"]
-shape = SubResource("BoxShape3D_nxaxc")
+[node name="Cauldron" type="StaticBody3D" parent="."]
+transform = Transform3D(11.72, 0, 0, 0, 11.72, 0, 0, 0, 11.72, -10.3255, -3.06273, -14.8831)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cauldron"]
+shape = SubResource("BoxShape3D_06xwk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cauldron/CollisionShape3D"]
+mesh = SubResource("BoxMesh_7crwb")
+
+[connection signal="body_entered" from="Cube_Shadow" to="Player_View" method="_on_cube_shadow_body_entered"]

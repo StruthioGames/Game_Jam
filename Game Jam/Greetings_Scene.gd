@@ -22,7 +22,7 @@ func shoot_ray():
 	ray_query.from = from
 	ray_query.to = to
 	var raycast_result = space.intersect_ray(ray_query)
-
+	
 	if raycast_result:
 		var collider = raycast_result.collider
 		if collider == spawn_bell:
