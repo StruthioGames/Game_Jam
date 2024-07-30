@@ -1,8 +1,12 @@
-extends Camera3D
+extends Node3D
 
 @export var customer_position: Node3D
 @export var spawn_bell: StaticBody3D
 @export var delete_bell: StaticBody3D
+
+@onready var camera = $Camera3D
+@onready var spawn_audio = $BellSpawnAudio
+@onready var delete_audio = $BellDeleteAudio
 
 func _ready():
 	if CustomerSpawn.customer:
@@ -15,8 +19,8 @@ func _input(event):
 func shoot_ray():
 	var mouse_pos = get_viewport().get_mouse_position()
 	var ray_length = 1000
-	var from = project_ray_origin(mouse_pos)
-	var to = from + project_ray_normal(mouse_pos) * ray_length
+	var from = camera.project_ray_origin(mouse_pos)
+	var to = from + camera.project_ray_normal(mouse_pos) * ray_length
 	var space = get_world_3d().direct_space_state
 	var ray_query = PhysicsRayQueryParameters3D.new()
 	ray_query.from = from
@@ -33,6 +37,9 @@ func shoot_ray():
 func _on_spawn_clicked():
 	CustomerSpawn.show_customer()
 	CustomerSpawn.customer.position = customer_position.position
+	spawn_audio.play()
 	
 func _on_delete_clicked():
 	CustomerSpawn.hide_customer()
+	delete_audio.play()
+	

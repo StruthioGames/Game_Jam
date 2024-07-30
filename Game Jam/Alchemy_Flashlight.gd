@@ -6,6 +6,7 @@ extends Node3D
 @onready var flashlight_collider = flashlight.get_child(0)
 @onready var background_wall = $Background_Wall
 @onready var cauldron = $Cauldron
+@onready var added_to_cauldron = $AddedtoCauldron
 
 # Flashlight Variables
 var dragging = false
@@ -58,6 +59,7 @@ func _ready():
 	shadow_scale = flashlight_to_wall * ObjectControl.shadow_size_adjust
 	shadow_object.global_transform.origin = mirrored_position
 	shadow_object.scale = Vector3(shadow_scale, shadow_scale, shadow_scale)
+	information_display()
 
 func _input(event):
 	if event is InputEventMouseButton:
@@ -225,6 +227,8 @@ func reset_objects():
 
 func _on_area_3d_body_entered(body):
 	if shadow_object_rigid == body:
+		added_to_cauldron.play()
+		
 		var current_scene = ObjectControl.object_list[ObjectControl.object_index]
 		ObjectControl.added_object_list.append(current_scene)
 		
@@ -261,8 +265,6 @@ func information_display():
 			vbox.add_child(name_label)
 			
 			vbox_container.add_child(vbox)
-	print(ObjectControl.added_object_list)
-	print(CustomerSpawn.customer_remedy)
 
 func _on_empty_cauldron_pressed():
 	ObjectControl.added_object_list = []

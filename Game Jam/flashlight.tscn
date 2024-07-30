@@ -1,12 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxxx07i6m4ugl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kvqyh"]
+size = Vector3(1.49475, 1, 2.39459)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bnfh1"]
-albedo_color = Color(1, 0.298039, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1nhw3"]
+albedo_color = Color(0, 0, 1, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_6jivm"]
-material = SubResource("StandardMaterial3D_bnfh1")
+[sub_resource type="CylinderMesh" id="CylinderMesh_hsa72"]
+material = SubResource("StandardMaterial3D_1nhw3")
 
 [node name="Node3D" type="Node3D"]
 
@@ -17,7 +18,8 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 shape = SubResource("BoxShape3D_kvqyh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("BoxMesh_6jivm")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_hsa72")
 skeleton = NodePath("../Flashlight")
 
 [node name="Flashlight" type="SpotLight3D" parent="StaticBody3D"]

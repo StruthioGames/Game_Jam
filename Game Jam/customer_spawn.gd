@@ -12,19 +12,19 @@ var customer_properties = {}
 var customer_properties_dict = {
 	"Demon": {
 		"type": "Demon",
-		"shadow_color": Color(0, 0, 0),
+		"shadow_color": Color(1, 0, 0),
 		"shadow_behavior": "none",
 		"light_damage_multiplier": 10.0
 	},
 	"Poltergiest": {
 		"type": "Poltergiest",
-		"shadow_color": Color(0, 0, 0),  
+		"shadow_color": Color(0, 1, 0),  
 		"shadow_behavior": "inverted",
 		"light_damage_multiplier": 20.0
 	},
 	"Shade": {
 		"type": "Shade",
-		"shadow_color": Color(0, 0, 0),
+		"shadow_color": Color(0, 0, 1),
 		"shadow_behavior": "translucent",
 		"light_damage_multiplier": 20.0
 	}
@@ -54,6 +54,8 @@ func spawn_customer():
 				material = StandardMaterial3D.new()
 				material.albedo_color = Color(red, green, blue)
 				customer.get_child(0).material_override = material
+				if customer_type == "Shade":
+					customer_properties_dict["Shade"]["shadow_color"] = material.albedo_color
 		customer.visible = false
 
 func show_customer():

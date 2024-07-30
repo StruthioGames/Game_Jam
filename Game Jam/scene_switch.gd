@@ -8,6 +8,7 @@ extends Control
 @onready var forward_button = $CanvasLayer/Forward
 @onready var success_box = $HBoxContainer/Success
 @onready var fail_box = $HBoxContainer/Failures 
+@onready var background_music = $BackgroundMusic
 
 var scene_list = []
 var current_scene_index = 0
@@ -16,17 +17,18 @@ var wrong = 0
 
 func _ready():
 	scene_list = [greetings, investigation, alchemy]
-	success_box.text = "Right: " + str(right)
-	fail_box.text = "Wrong: " + str(wrong)
+	success_box.text = "Saved: " + str(right)
+	fail_box.text = "Lost: " + str(wrong)
 	update_buttons()
+	background_music.play()
 
 func update_right():
 	right = right + 1
-	success_box.text = "Right: " + str(right)
+	success_box.text = "Saved: " + str(right)
 
 func update_wrong():
 	wrong = wrong + 1
-	fail_box.text = "Wrong: " + str(wrong)
+	fail_box.text = "Lost: " + str(wrong)
 
 func _on_backward_pressed():
 	move_to_previous_scene()

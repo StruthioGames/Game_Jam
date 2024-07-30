@@ -2,14 +2,19 @@ extends Node3D
 
 @onready var camera = $Player_View
 @onready var flashlight = $Flashlight
-@onready var flashlight_light = null
+@onready var flashlight_light = $Flashlight/StaticBody3D/Flashlight
 @onready var flashlight_collider = $Flashlight/StaticBody3D
 @onready var customer_position = $Customer
 @onready var customer_shadow = $Customer_Shadow
 @onready var customer_shadow_material = $Customer/MeshInstance3D
 @onready var background_wall =  $Background_Wall
+
 @onready var health_bar = $Control/CanvasLayer/ProgressBar
 @onready var potion_box = $Control/CanvasLayer/Give_Potion
+
+@onready var flash_click = $Flashlight_Click
+@onready var success_noise = $Successful
+@onready var fail_noise = $Failure
 
 # Flashlight variables
 var dragging = false
@@ -28,7 +33,6 @@ var light_on = false
 var light_on_duration = 0.0
 
 func _ready():
-	flashlight_light = flashlight.get_child(0).get_child(2)
 	if CustomerSpawn.flashlight_on:
 		flashlight_light.visible = true
 		customer_shadow.visible = true
@@ -36,7 +40,7 @@ func _ready():
 		flashlight_light.visible = false
 		customer_shadow.visible = false
 		
-	if ObjectControl.added_object_list.size() == 0:
+	if ObjectControl.added_object_list.size() == 0 or not CustomerSpawn.customer:
 		potion_box.visible = false
 		
 	if CustomerSpawn.is_customer_visible() and CustomerSpawn.customer:
@@ -57,14 +61,21 @@ func _ready():
 		customer_shadow.global_transform.origin = mirrored_position
 		customer_shadow.scale = Vector3(shadow_scale, shadow_scale, .1)
 		if customer_shadow_material:
-			var material = customer_shadow_material.material_override
-			if material == null:
-				material = StandardMaterial3D.new()
-				material.albedo_color = Color(CustomerSpawn.customer_properties["shadow_color"])
-				customer_shadow_material.material_override = material
+			var mesh = customer_shadow_material.mesh
+			if mesh:
+				var material = customer_shadow_material.get_surface_override_material(0)
+				if material == null:
+					material = StandardMaterial3D.new()
+					material.albedo_color = Color(CustomerSpawn.customer_properties["shadow_color"])
+					customer_shadow_material.set_surface_override_material(0, material)
 	else:
 		customer_shadow.visible = false
-	
+		
+	if health_bar and CustomerSpawn.customer:
+		health_bar.value = CustomerSpawn.customer_health
+	else:
+		health_bar.value = 100
+		
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -76,6 +87,7 @@ func _input(event):
 					dragging = false
 					dragged_object = null
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			flash_click.play()
 			if CustomerSpawn.flashlight_on:
 				CustomerSpawn.flashlight_on = false
 				flashlight_light.visible = false
@@ -159,6 +171,7 @@ func update_health_bar():
 	if health_bar.value <= 0:
 		SceneChangeOverlay.update_wrong()
 		free_customer()
+		fail_noise.play()
 
 func free_customer():
 	if CustomerSpawn.customer:
@@ -167,15 +180,35 @@ func free_customer():
 		customer_shadow.visible = false
 
 func _on_give_potion_pressed():
-	if ObjectControl.added_object_list.size() == CustomerSpawn.customer_remedy.size():
-		for object in ObjectControl.added_object_list:
-			if object in CustomerSpawn.customer_remedy:
-				CustomerSpawn.customer_remedy.erase(object)
-			else:
-				apply_damage(75)
-		if CustomerSpawn.customer_remedy.size() == 0:
-			ObjectControl.added_object_list = []
-			SceneChangeOverlay.update_right()
-			free_customer()
-	else:
-		apply_damage(75)
+	if ObjectControl.added_object_list.size() != CustomerSpawn.customer_remedy.size():
+		apply_incorrect_potion()
+		return
+	
+	for object in ObjectControl.added_object_list:
+		if object in CustomerSpawn.customer_remedy:
+			CustomerSpawn.customer_remedy.erase(object)
+		else:
+			apply_incorrect_potion()
+			return
+			
+	if CustomerSpawn.customer_remedy.size() == 0:
+		apply_correct_potion()
+
+func apply_incorrect_potion():
+	apply_damage(75)
+	reset_potion_state()
+
+func apply_correct_potion():
+	SceneChangeOverlay.update_right()
+	free_customer()
+	reset_potion_state()
+	success_noise.play()
+
+func reset_potion_state():
+	ObjectControl.added_object_list = []
+	ObjectControl.object_counts = {
+		"Bible": 0,
+		"Cross": 0,
+		"Halo": 0
+	}
+	potion_box.visible = false
