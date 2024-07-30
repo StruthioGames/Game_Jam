@@ -21,6 +21,7 @@ SceneSwitcher="*res://scene_switcher.gd"
 SceneChangeOverlay="*res://SceneChangeOverlay.tscn"
 CustomerSpawn="*res://customer_spawn.tscn"
 PossessionDetails="*res://Possession_Details.tscn"
+ObjectControl="*res://ObjectControl.tscn"
 
 [dotnet]
 

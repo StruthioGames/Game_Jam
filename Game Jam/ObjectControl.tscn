@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://li3vl8gj4og"]
+
+[ext_resource type="Script" path="res://ObjectController.gd" id="1_xku5q"]
+[ext_resource type="PackedScene" uid="uid://b3ic4fotgh5hv" path="res://Bible_Instantiate.tscn" id="2_nn1eu"]
+[ext_resource type="PackedScene" uid="uid://bkxn0gk35tj7i" path="res://Halo_Instantiate.tscn" id="3_86x6g"]
+[ext_resource type="PackedScene" uid="uid://d2una6s8nhf7c" path="res://Cross_Instantiate.tscn" id="4_tpbfn"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xku5q")
+bible = ExtResource("2_nn1eu")
+cross = ExtResource("4_tpbfn")
+halo = ExtResource("3_86x6g")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2

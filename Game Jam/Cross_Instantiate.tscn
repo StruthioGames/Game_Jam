@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2una6s8nhf7c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2bmkx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kwwmj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_aoiuc"]
+material = SubResource("StandardMaterial3D_kwwmj")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_voarj"]
+
+[node name="Cross" type="Node3D"]
+
+[node name="CrossRigidBody3D" type="RigidBody3D" parent="."]
+
+[node name="UpperCollisionShape3D" type="CollisionShape3D" parent="CrossRigidBody3D"]
+transform = Transform3D(1.75, 0, 0, 0, 0.5, 0, 0, 0, 0.1, 0, 0.25, 0)
+shape = SubResource("BoxShape3D_2bmkx")
+
+[node name="UpperMeshInstance3D2" type="MeshInstance3D" parent="CrossRigidBody3D/UpperCollisionShape3D"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_aoiuc")
+skeleton = NodePath("../../..")
+
+[node name="BodyCollisionShape3D2" type="CollisionShape3D" parent="CrossRigidBody3D"]
+transform = Transform3D(0.5, 0, 0, 0, 2, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("BoxShape3D_voarj")
+
+[node name="BodyMeshInstance3D3" type="MeshInstance3D" parent="CrossRigidBody3D/BodyCollisionShape3D2"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_aoiuc")
+skeleton = NodePath("../../..")

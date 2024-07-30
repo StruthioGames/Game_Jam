@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmefgfs8lqiou"]
+
+[ext_resource type="PackedScene" uid="uid://dtmjw6xwc4y5q" path="res://Blender Assets/Cauldron.glb" id="1_qhxof"]
+
+[node name="Cauldron" instance=ExtResource("1_qhxof")]
+
+[node name="Cylinder" parent="." index="0"]
+cast_shadow = 0
