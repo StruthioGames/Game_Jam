@@ -20,3 +20,14 @@ func _ready():
 
 func object_create():
 	return object_list[object_index].instantiate()
+
+func get_remedy():
+	var remedy_list = []
+	if CustomerSpawn.customer_properties["type"] == "Demon":
+		remedy_list = [cross, cross, cross]
+	elif CustomerSpawn.customer_properties["type"] == "Poltergiest":
+		remedy_list = [cross, halo, halo]
+	elif CustomerSpawn.customer_properties["type"] == "Shade":
+		remedy_list = [bible, cross, halo]
+	
+	return remedy_list

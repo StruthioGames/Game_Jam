@@ -84,12 +84,30 @@ offset_right = 299.0
 offset_bottom = 479.0
 
 [node name="Label" type="Label" parent="Control/CanvasLayer"]
-offset_left = 359.0
-offset_top = 576.0
-offset_right = 430.0
-offset_bottom = 599.0
+anchors_preset = -1
+anchor_left = 0.341
+anchor_top = 0.868
+anchor_right = 0.341
+anchor_bottom = 0.868
+offset_left = -35.832
+offset_top = -11.464
+offset_right = 35.168
+offset_bottom = 11.536
 text = "Cauldron"
+
+[node name="Empty_Cauldron" type="Button" parent="Control/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.342
+anchor_top = 0.91
+anchor_right = 0.342
+anchor_bottom = 0.91
+offset_left = -61.984
+offset_top = -15.68
+offset_right = 61.016
+offset_bottom = 15.32
+text = "Clear Contents"
 
 [connection signal="body_entered" from="Cauldron/Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="pressed" from="Control/CanvasLayer/HBoxContainer/Prev_Item" to="." method="_on_prev_item_pressed"]
 [connection signal="pressed" from="Control/CanvasLayer/HBoxContainer/Next_Item" to="." method="_on_next_item_pressed"]
+[connection signal="pressed" from="Control/CanvasLayer/Empty_Cauldron" to="." method="_on_empty_cauldron_pressed"]

@@ -26,6 +26,10 @@ var is_dragging_shadow = false
 var object_start_position = Vector3()
 var cauldron_position = Vector3(-2, -3, -5)
 
+#For user targeting
+var temp_object = null
+var temp_object_rigid = null
+
 func _ready():
 	# Set up initial positions and objects
 	if CustomerSpawn.customer:
@@ -96,6 +100,8 @@ func shoot_ray():
 			is_dragging_shadow = true
 			offset = shadow_object.global_transform.origin - raycast_result.position
 			radius = (shadow_object.global_transform.origin - target_object.global_transform.origin).length()
+			if not temp_object:
+				temp_object = instance_aiming_shadow()
 
 func update_position(mouse_position: Vector2):
 	var from = camera.project_ray_origin(mouse_position)
@@ -126,7 +132,7 @@ func instance_target():
 		target_object_rigid.freeze = true
 		target_object.global_transform.origin = object_start_position
 	return target_object
-	
+
 func instance_shadow():
 	shadow_object = ObjectControl.object_create()
 	if shadow_object:
@@ -151,6 +157,31 @@ func instance_shadow():
 							sub_material.albedo_color = Color(0, 0, 0)
 							sub_child.material_override = sub_material
 	return shadow_object
+
+func instance_aiming_shadow():
+	temp_object = ObjectControl.object_create()
+	if temp_object:
+		add_child(temp_object)
+		temp_object_rigid = temp_object.get_child(0)
+		temp_object_rigid.freeze = true
+		temp_object.global_transform.origin = Vector3(-2, 1, shadow_z_position-.1)
+		temp_object.scale = shadow_object.scale
+		for child in temp_object_rigid.get_children():
+			if child is MeshInstance3D:
+				var material = child.material_override
+				if material == null:
+					material = StandardMaterial3D.new()
+					material.albedo_color = Color(1, 0, 0)
+					child.material_override = material
+			else:
+				for sub_child in child.get_children():
+					if sub_child is MeshInstance3D:
+						var sub_material = sub_child.material_override
+						if sub_material == null:
+							sub_material = StandardMaterial3D.new()
+							sub_material.albedo_color = Color(1, 0, 0)
+							sub_child.material_override = sub_material
+	return temp_object_rigid
 
 func _on_prev_item_pressed():
 	reset_objects()
@@ -178,6 +209,8 @@ func check_shadow_dropped_into_cauldron():
 		dropped_into_cauldron = true
 		shadow_object_rigid.freeze = false
 		shadow_object.global_transform.origin.z = cauldron_position.z + 0.5
+		temp_object.queue_free()
+		temp_object_rigid.queue_free()
 		for child in shadow_object_rigid.get_children():
 			if target_object.scale < child.scale * shadow_shrunk_scale:
 				child.scale = child.scale * shadow_shrunk_scale
@@ -222,12 +255,20 @@ func information_display():
 			var vbox = VBoxContainer.new()
 			vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
 			
-			# Name label with count
 			var name_label = Label.new()
 			name_label.text = str(count) + "x " + scene_name
 			name_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			vbox.add_child(name_label)
 			
 			vbox_container.add_child(vbox)
+	print(ObjectControl.added_object_list)
+	print(CustomerSpawn.customer_remedy)
 
-
+func _on_empty_cauldron_pressed():
+	ObjectControl.added_object_list = []
+	ObjectControl.object_counts = {
+		"Bible": 0,
+		"Cross": 0,
+		"Halo": 0
+	}
+	information_display()

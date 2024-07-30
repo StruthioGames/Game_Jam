@@ -8,10 +8,10 @@
 [sub_resource type="BoxMesh" id="BoxMesh_lveai"]
 
 [node name="Investigation_Scene" type="Node3D"]
+script = ExtResource("1_0b8i8")
 
 [node name="Player_View" type="Camera3D" parent="."]
 current = true
-script = ExtResource("1_0b8i8")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 omni_range = 16.0
@@ -29,3 +29,39 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.296937, 0, -0.520617)
 
 [node name="Customer_Shadow" parent="." instance=ExtResource("4_xq2sf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.02485)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Control"]
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -142.0
+offset_top = 83.0
+offset_right = 142.0
+offset_bottom = 110.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+value = 100.0
+
+[node name="Give_Potion" type="Button" parent="Control/CanvasLayer"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -325.0
+offset_top = 66.0
+offset_bottom = 203.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "Give Potion"
+
+[connection signal="pressed" from="Control/CanvasLayer/Give_Potion" to="." method="_on_give_potion_pressed"]

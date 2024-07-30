@@ -24,8 +24,6 @@ visible = false
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 omni_range = 50.0
 
-[node name="RayCast" type="RayCast3D" parent="."]
-
 [node name="Spawn_Bell" type="StaticBody3D" parent="."]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.437105, -0.28776, -0.812876)
 
@@ -48,3 +46,35 @@ mesh = SubResource("SphereMesh_46s5n")
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 1, 0.0908761, -1.2786, -0.922734)
 mesh = SubResource("BoxMesh_gqxr6")
 skeleton = NodePath("")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Control"]
+
+[node name="Spawn" type="Label" parent="Control/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.717
+anchor_top = 0.779
+anchor_right = 0.717
+anchor_bottom = 0.779
+offset_left = -69.984
+offset_top = -11.792
+offset_right = 69.016
+offset_bottom = 11.208
+text = "Recieve Customer"
+
+[node name="Recycle" type="Label" parent="Control/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.275
+anchor_top = 0.779
+anchor_right = 0.275
+anchor_bottom = 0.779
+offset_left = -71.8
+offset_top = -11.792
+offset_right = 71.2
+offset_bottom = 11.208
+text = "Remove Customer"
