@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b85lemklbqphl"]
 
 [ext_resource type="Script" path="res://scene_switch.gd" id="1_i551i"]
-[ext_resource type="PackedScene" uid="uid://unln8t1sxdbi" path="res://Customers_Scene.tscn" id="2_gs2do"]
+[ext_resource type="PackedScene" uid="uid://unln8t1sxdbi" path="res://Greeting_Scene.tscn" id="2_gs2do"]
 [ext_resource type="PackedScene" uid="uid://cb0cwjoxxkoat" path="res://Investigation_Scene.tscn" id="3_cgit5"]
 [ext_resource type="PackedScene" uid="uid://dbjh8yjn0xpyx" path="res://Alchemy_Scene.tscn" id="4_ojvo6"]
 

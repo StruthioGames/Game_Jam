@@ -1,0 +1,132 @@
+[gd_scene load_steps=13 format=3 uid="uid://unln8t1sxdbi"]
+
+[ext_resource type="Script" path="res://Greetings_Scene.gd" id="1_swnkm"]
+[ext_resource type="PackedScene" uid="uid://do6aily45efng" path="res://Customer.tscn" id="2_rvei3"]
+[ext_resource type="MeshLibrary" uid="uid://kp1f8nv7wa25" path="res://stone_mesh_library.tres" id="3_vhph1"]
+[ext_resource type="AudioStream" uid="uid://burkxspah60ey" path="res://ding-101377.mp3" id="4_d2o4o"]
+[ext_resource type="AudioStream" uid="uid://cxxe2qavuukw2" path="res://Ding_Reverse.wav" id="5_7fm4y"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_t364m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gcxn2"]
+albedo_color = Color(0.233334, 0, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_46s5n"]
+material = SubResource("StandardMaterial3D_gcxn2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lo3po"]
+albedo_color = Color(0.351186, 0.13405, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gqxr6"]
+material = SubResource("StandardMaterial3D_lo3po")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yfu6u"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rklsc"]
+material = SubResource("StandardMaterial3D_yfu6u")
+
+[node name="Greetings_Scene" type="Node3D" node_paths=PackedStringArray("customer_position", "spawn_bell", "delete_bell")]
+script = ExtResource("1_swnkm")
+customer_position = NodePath("Customer")
+spawn_bell = NodePath("Spawn_Bell")
+delete_bell = NodePath("Delete_Bell")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="Customer" parent="." instance=ExtResource("2_rvei3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.96269)
+visible = false
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+omni_range = 50.0
+
+[node name="Spawn_Bell" type="StaticBody3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.437105, -0.28776, -0.812876)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Spawn_Bell"]
+shape = SubResource("SphereShape3D_t364m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Spawn_Bell/CollisionShape3D"]
+mesh = SubResource("SphereMesh_46s5n")
+
+[node name="Delete_Bell" type="StaticBody3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.454586, -0.28776, -0.812876)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Delete_Bell"]
+shape = SubResource("SphereShape3D_t364m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Delete_Bell/CollisionShape3D"]
+mesh = SubResource("SphereMesh_46s5n")
+
+[node name="Desk" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 1, 0, -1.28683, -0.923)
+mesh = SubResource("BoxMesh_gqxr6")
+skeleton = NodePath("")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Control"]
+
+[node name="Spawn" type="Label" parent="Control/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.717
+anchor_top = 0.779
+anchor_right = 0.717
+anchor_bottom = 0.779
+offset_left = -69.984
+offset_top = -11.792
+offset_right = 69.016
+offset_bottom = 11.208
+text = "Recieve Tainted Soul"
+
+[node name="Recycle" type="Label" parent="Control/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.275
+anchor_top = 0.779
+anchor_right = 0.275
+anchor_bottom = 0.779
+offset_left = -71.8
+offset_top = -11.792
+offset_right = 71.2
+offset_bottom = 11.208
+text = "Remove Victim"
+
+[node name="Label" type="Label" parent="Control/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.777
+anchor_right = 0.5
+anchor_bottom = 0.777
+offset_left = -137.0
+offset_top = -37.496
+offset_right = 136.0
+offset_bottom = 37.504
+text = "Press 't' for the tutorial
+
+Press 'r' for possession information"
+horizontal_alignment = 1
+
+[node name="Door" type="MeshInstance3D" parent="."]
+transform = Transform3D(3.5, 0, 0, 0, 10, 0, 0, 0, 1.5, 0, -2.5, -10)
+mesh = SubResource("BoxMesh_rklsc")
+skeleton = NodePath("")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("3_vhph1")
+data = {
+"cells": PackedInt32Array(5, 65530, 0, 4, 65530, 0, 3, 65530, 0, 2, 65530, 0, 1, 65530, 0, 0, 65530, 0, 65535, 65530, 0, 65534, 65530, 0, 65533, 65530, 0, 65532, 65530, 0, 65531, 65530, 0, 65530, 65530, 0, -65531, 65530, 0, -65532, 65530, 0, -65533, 65530, 0, -65534, 65530, 0, -65535, 65530, 0, -65536, 65530, 0, -1, 65530, 0, -6, 65530, 0, -2, 65530, 0, -3, 65530, 0, -4, 65530, 0, -5, 65530, 0, -65542, 65530, 0, -65541, 65530, 0, -65540, 65530, 0, -65539, 65530, 0, -65538, 65530, 0, -65537, 65530, 0, -131072, 65530, 0, -131071, 65530, 0, -131070, 65530, 0, -131069, 65530, 0, -131068, 65530, 0, -131067, 65530, 0, 131066, 65530, 0, 131067, 65530, 0, 131068, 65530, 0, 131069, 65530, 0, 131070, 65530, 0, 65537, 65530, 0, 65536, 65530, 0, 131071, 65530, 0, 65538, 65530, 0, 65539, 65530, 0, 65540, 65530, 0, 65541, 65530, 0, -786397, 65528, 0, -786398, 65528, 0, -196594, 65528, 0, 131077, 65530, 0, 131076, 65530, 0, 131075, 65530, 0, 131074, 65530, 0, 131073, 65530, 0, 131072, 65530, 0, 196607, 65530, 0, 196606, 65530, 0, 196605, 65530, 0, 196604, 65530, 0, 196603, 65530, 0, 196602, 65530, 0, 196603, 2, 0, 196604, 2, 0, 131069, 2, 0, -65540, 2, 0, 196605, 2, 0, 196606, 2, 0, 196607, 2, 0, 131072, 2, 0, 131073, 2, 0, 131074, 2, 0, 131075, 2, 0, 65539, 2, 0, 65540, 2, 0, 131076, 2, 0, -131068, 2, 0, -131069, 2, 0, -131070, 2, 0, -131071, 2, 0, -131072, 2, 0, -65537, 2, 0, -65538, 2, 0, -65539, 2, 0, -65541, 2, 0, -5, 2, 0, 65531, 2, 0, 131067, 2, 0, 131068, 2, 0, 131070, 2, 0, 131071, 2, 0, 65536, 2, 0, 65537, 2, 0, 65538, 2, 0, 4, 2, 0, 3, 2, 0, 2, 2, 0, 1, 2, 0, 0, 2, 0, 65535, 2, 0, 65534, 2, 0, 65533, 2, 0, 65532, 2, 0, -4, 2, 0, -3, 2, 0, -2, 2, 0, -1, 2, 0, -65536, 2, 0, -65535, 2, 0, -65534, 2, 0, -65533, 2, 0, -65532, 2, 0, -131068, 65531, 0, -131069, 65531, 0, -131070, 65531, 0, -131071, 65531, 0, -131072, 65531, 0, -65537, 65531, 0, -65538, 65531, 0, -65539, 65531, 0, -65540, 65531, 0, -65541, 65531, 0, -65542, 65531, 0, -65542, 65532, 0, -65542, 65533, 0, -65542, 65534, 0, -65542, 65535, 0, -65542, 0, 0, -65542, 1, 0, -65541, 1, 0, -65540, 1, 0, -65539, 1, 0, -65538, 1, 0, -65537, 1, 0, -131072, 1, 0, -131071, 1, 0, -131070, 1, 0, -131069, 1, 0, -131068, 1, 0, -131068, 0, 0, -131068, 65535, 0, -131068, 65534, 0, -131068, 65533, 0, -131068, 65532, 0, -131069, 65532, 0, -131070, 65532, 0, -131071, 65532, 0, -131072, 65532, 0, -65537, 65532, 0, -65538, 65532, 0, -65539, 65532, 0, -65540, 65532, 0, -65541, 65532, 0, -65541, 65533, 0, -65541, 65534, 0, -65541, 65535, 0, -65541, 0, 0, -65540, 0, 0, -65539, 0, 0, -65538, 0, 0, -65537, 0, 0, -131069, 0, 0, -131069, 65535, 0, -131069, 65534, 0, -131069, 65533, 0, -131070, 65535, 0, -131070, 0, 0, -131070, 65534, 0, -131070, 65533, 0, -131071, 65535, 0, -131071, 0, 0, -131071, 65534, 0, -131071, 65533, 0, -131072, 65534, 0, -131072, 65535, 0, -131072, 0, 0, -131072, 65533, 0, -65537, 65533, 0, -65537, 65534, 0, -65537, 65535, 0, -65538, 65533, 0, -65538, 65534, 0, -65538, 65535, 0, -65539, 65533, 0, -65539, 65534, 0, -65539, 65535, 0, -65540, 65533, 0, -65540, 65534, 0, -65540, 65535, 0, -65542, 2, 0, -131067, 2, 0, -131067, 1, 0, -131067, 0, 0, -131067, 65535, 0, -131067, 65531, 0, -131067, 65533, 0, -131067, 65532, 0, -131067, 65534, 0, -65531, 2, 0, 5, 2, 0, 65541, 2, 0, 131077, 2, 0, 131077, 1, 0, 131077, 0, 0, 131077, 65535, 0, 131077, 65534, 0, 131077, 65533, 0, 131077, 65532, 0, 131077, 65531, 0, -65531, 65531, 0, -65531, 65532, 0, -65531, 65533, 0, -65531, 65534, 0, -65531, 65535, 0, -65531, 0, 0, -65531, 1, 0, 5, 1, 0, 65541, 1, 0, 65541, 0, 0, 65541, 65535, 0, 65541, 65534, 0, 65541, 65533, 0, 65541, 65532, 0, 65541, 65531, 0, 5, 65531, 0, 5, 65532, 0, 5, 65533, 0, 5, 65534, 0, 5, 65535, 0, 5, 0, 0, -6, 2, 0, 65530, 2, 0, 131066, 2, 0, 196602, 2, 0, 196602, 1, 0, 196602, 0, 0, 196602, 65535, 0, 196602, 65534, 0, 196602, 65533, 0, 196602, 65532, 0, 196602, 65531, 0, -6, 65531, 0, -6, 65532, 0, -6, 65533, 0, -6, 65534, 0, -6, 65535, 0, -6, 0, 0, -6, 1, 0, 65530, 1, 0, 131066, 1, 0, 131066, 0, 0, 131066, 65535, 0, 131066, 65534, 0, 131066, 65533, 0, 131066, 65532, 0, 131066, 65531, 0, 65530, 65531, 0, 65530, 65532, 0, 65530, 65533, 0, 65530, 65534, 0, 65530, 65535, 0, 65530, 0, 0, 196603, 1, 0, 196603, 0, 0, 196603, 65535, 0, 196603, 65534, 0, 196603, 65532, 0, 196603, 65533, 0, 196603, 65531, 0, 196604, 65531, 0, 196605, 65531, 0, 196606, 65531, 0, 196607, 65531, 0, 131072, 65531, 0, 131073, 65531, 0, 131074, 65531, 0, 131075, 65531, 0, 131076, 65531, 0, 131076, 65532, 0, 131076, 65533, 0, 131076, 65534, 0, 131076, 65535, 0, 131076, 0, 0, 131076, 1, 0, 131075, 1, 0, 131074, 1, 0, 131073, 1, 0, 196604, 1, 0, 196605, 1, 0, 196606, 1, 0, 196607, 1, 0, 131072, 1, 0, 131075, 0, 0, 131074, 0, 0, 131073, 0, 0, 131072, 0, 0, 196607, 0, 0, 196606, 0, 0, 196605, 0, 0, 196604, 0, 0, 131072, 65535, 0, 131073, 65535, 0, 131074, 65535, 0, 131075, 65535, 0, 196607, 65535, 0, 196606, 65535, 0, 196605, 65535, 0, 196604, 65535, 0, 196604, 65533, 0, 196604, 65534, 0, 196605, 65534, 0, 196606, 65534, 0, 196607, 65534, 0, 131072, 65534, 0, 131073, 65534, 0, 131074, 65534, 0, 131074, 65533, 0, 131075, 65533, 0, 131075, 65534, 0, 131075, 65532, 0, 131074, 65532, 0, 131073, 65532, 0, 131072, 65532, 0, 196607, 65532, 0, 196606, 65532, 0, 196605, 65532, 0, 196604, 65532, 0, 196605, 65533, 0, 196606, 65533, 0, 196607, 65533, 0, 131072, 65533, 0, 131073, 65533, 0)
+}
+metadata/_editor_floor_ = Vector3(-6, 2, -5)
+
+[node name="BellSpawnAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_d2o4o")
+volume_db = -8.0
+
+[node name="BellDeleteAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_7fm4y")
+volume_db = -10.0

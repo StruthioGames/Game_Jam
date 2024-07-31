@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cjcqmlf7u7atq"]
 
 [ext_resource type="Script" path="res://scene_switch.gd" id="1_f3bmi"]
-[ext_resource type="PackedScene" uid="uid://unln8t1sxdbi" path="res://Customers_Scene.tscn" id="2_dgxfy"]
+[ext_resource type="PackedScene" uid="uid://unln8t1sxdbi" path="res://Greeting_Scene.tscn" id="2_dgxfy"]
 [ext_resource type="PackedScene" uid="uid://cb0cwjoxxkoat" path="res://Investigation_Scene.tscn" id="3_e4gx2"]
 [ext_resource type="PackedScene" uid="uid://dbjh8yjn0xpyx" path="res://Alchemy_Scene.tscn" id="4_ri4vv"]
 [ext_resource type="AudioStream" uid="uid://dlvxsmbfv0nxd" path="res://howling-winter-storm-ambient-sounds-6756.mp3" id="5_bh0q3"]
